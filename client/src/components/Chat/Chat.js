@@ -28,25 +28,19 @@ const Chat = ({ location }) => {
         setRoom(room);
 
         socket.emit('join', { name, room }, (error) => {
-            if(error) {
+            if (error) {
                 alert(error);
             }
         });
-
-        return () => {
-            socket.emit('disconnect');
-
-            socket.off();
-        }
     }, [ENDPOINT, location.search]);
 
     useEffect(() => {
-        socket.on('roomData', ({ users }) => {
-            setUsers(users);
+        socket.on('message', message => {
+            setMessages(messages => [...messages, message]);
         });
 
-        socket.on('message', (message) => {
-            setMessages([...messages, message]);
+        socket.on('roomData', ({ users }) => {
+            setUsers(users);
         });
     }, []);
 
@@ -59,7 +53,7 @@ const Chat = ({ location }) => {
     }
 
     return (
-        <div className="outerContainer">
+        <div className="out erContainer">
             <div className="container">
                 <InfoBar room={room} />
                 <Messages messages={messages} name={name} />
