@@ -44,13 +44,11 @@ const Chat = ({ location }) => {
         socket.on('roomData', ({ users }) => {
             setUsers(users);
         });
-    }, [users]);
 
-    useEffect(() => {
         socket.on('message', (message) => {
             setMessages([...messages, message]);
         });
-    }, [messages]);
+    }, []);
 
     const sendMessage = (event) => {
         event.preventDefault();
